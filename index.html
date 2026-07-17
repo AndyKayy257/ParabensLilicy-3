@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Lilicy — Feliz Aniversário</title>
+<meta name="description" content="Um presente feito com carinho para Lilicy." />
+
+<!-- Tipografia: serifada elegante para display, sans leve para o corpo -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- CAMADA DE FUNDO — partículas e estrelas discretas             -->
+<!-- ============================================================ -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<!-- ============================================================ -->
+<!-- PLAYER DE MÚSICA — fixo, aparece após iniciar a surpresa      -->
+<!-- ============================================================ -->
+<div class="player" id="player" data-visible="false">
+  <button class="player__toggle" id="player-toggle" aria-label="Abrir player">
+    <span class="player__toggle-dot"></span>
+  </button>
+
+  <div class="player__panel" id="player-panel">
+    <p class="player__track">Hoje de Manhã</p>
+    <div class="player__controls">
+      <button id="btn-restart" class="player__btn" aria-label="Reiniciar música">
+        <svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+      </button>
+      <button id="btn-play" class="player__btn player__btn--main" aria-label="Reproduzir">
+        <svg viewBox="0 0 24 24" id="icon-play"><path d="M8 5v14l11-7z"/></svg>
+        <svg viewBox="0 0 24 24" id="icon-pause" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+      </button>
+      <div class="player__volume">
+        <svg viewBox="0 0 24 24"><path d="M3 10v4h4l5 5V5L7 10H3z"/></svg>
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="0.6" aria-label="Volume" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="audio" loop preload="none">
+  <source src="assets/music/hoje_de_manha.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- ============================================================ -->
+<!-- TELA INICIAL                                                  -->
+<!-- ============================================================ -->
+<section class="intro" id="intro">
+  <div class="intro__stars" aria-hidden="true"></div>
+
+  <div class="intro__content">
+    <p class="intro__eyebrow">um presente para</p>
+    <h1 class="intro__name">Lilicy</h1>
+    <p class="intro__wish">Feliz aniversário</p>
+
+    <p class="intro__quote">
+      “Alguns presentes chegam na data.<br />
+      Outros chegam com carinho.”
+    </p>
+
+    <button class="btn-primary intro__cta" id="btn-start">
+      <span>Começar surpresa</span>
+    </button>
+  </div>
+
+  <div class="intro__veil" id="intro-veil" aria-hidden="true"></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CONTEÚDO PRINCIPAL — revelado após a transição                -->
+<!-- ============================================================ -->
+<main class="site" id="site" hidden>
+
+  <!-- CARTA -->
+  <section class="section section--letter" id="section-letter">
+    <p class="section__eyebrow reveal">um pedacinho de mim</p>
+    <h2 class="section__title reveal">Uma carta para você</h2>
+    <p class="section__lead reveal">
+      Escrevi algo com calma, pensando em cada palavra.
+      Quando estiver pronta, abra devagar.
+    </p>
+
+    <button class="btn-seal reveal" id="btn-open-letter" aria-haspopup="dialog">
+      <span class="btn-seal__ring"></span>
+      <span class="btn-seal__label">Ler carta</span>
+    </button>
+  </section>
+
+  <!-- Overlay da carta -->
+  <div class="letter-overlay" id="letter-overlay" aria-hidden="true">
+    <div class="letter-paper" id="letter-paper">
+      <button class="letter-close" id="letter-close" aria-label="Fechar carta">✕</button>
+      <div class="letter-paper__inner">
+        <p class="letter-paper__mark">Para Lilicy</p>
+        <div class="letter-paper__text" id="letter-text"></div>
+        <span class="letter-caret" id="letter-caret"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- UM POUQUINHO DA LILICY -->
+  <section class="section section--about" id="section-about">
+    <p class="section__eyebrow reveal">para guardar</p>
+    <h2 class="section__title reveal">Um pouquinho da Lilicy</h2>
+
+    <div class="cards-grid">
+      <article class="info-card reveal">
+        <span class="info-card__label">Cor favorita</span>
+        <span class="info-card__value info-card__value--swatch">Vermelho</span>
+        <span class="info-card__swatch" aria-hidden="true"></span>
+      </article>
+
+      <article class="info-card reveal">
+        <span class="info-card__label">O que admiro</span>
+        <span class="info-card__value">Seu jeito leve.<br />Sua fé.</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- JOGUINHOS -->
+  <section class="section section--games" id="section-games">
+    <p class="section__eyebrow reveal">só por diversão</p>
+    <h2 class="section__title reveal">Joguinhos</h2>
+    <p class="section__lead reveal">Pequenas pausas para sorrir no meio da surpresa.</p>
+
+    <div class="games-grid">
+      <button class="game-tile reveal" data-game="balloons">
+        <span class="game-tile__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><path d="M24 4c-8 0-13 6.5-13 14 0 8 6 14.5 11 16l-1 6h6l-1-6c5-1.5 11-8 11-16 0-7.5-5-14-13-14z"/><line x1="24" y1="40" x2="24" y2="44"/></svg>
+        </span>
+        <span class="game-tile__title">Estourar balões</span>
+      </button>
+
+      <button class="game-tile reveal" data-game="puzzle">
+        <span class="game-tile__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><rect x="6" y="6" width="16" height="16" rx="3"/><rect x="26" y="6" width="16" height="16" rx="3"/><rect x="6" y="26" width="16" height="16" rx="3"/><rect x="26" y="26" width="16" height="16" rx="3"/></svg>
+        </span>
+        <span class="game-tile__title">Quebra-cabeça</span>
+      </button>
+
+      <button class="game-tile reveal" data-game="star">
+        <span class="game-tile__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><path d="M24 4l5.5 13.2L44 19l-10 9.6L36.8 44 24 36.2 11.2 44 14 28.6 4 19l14.5-1.8z"/></svg>
+        </span>
+        <span class="game-tile__title">Encontrar a estrela</span>
+      </button>
+
+      <button class="game-tile reveal" data-game="memory">
+        <span class="game-tile__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><rect x="6" y="10" width="14" height="28" rx="3"/><rect x="28" y="10" width="14" height="28" rx="3"/></svg>
+        </span>
+        <span class="game-tile__title">Jogo da memória</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Overlay dos jogos -->
+  <div class="game-overlay" id="game-overlay" aria-hidden="true">
+    <div class="game-modal">
+      <button class="letter-close" id="game-close" aria-label="Fechar jogo">✕</button>
+      <h3 class="game-modal__title" id="game-title"></h3>
+      <div class="game-modal__body" id="game-body"></div>
+    </div>
+  </div>
+
+  <!-- CÉU -->
+  <section class="section section--sky" id="section-sky">
+    <p class="section__eyebrow reveal">olhe para cima</p>
+    <h2 class="section__title reveal section__title--light">Um céu só para você</h2>
+    <p class="section__lead reveal section__lead--light">Toque em uma estrela.</p>
+
+    <div class="sky" id="sky">
+      <div class="sky__moon" aria-hidden="true"></div>
+      <div class="sky__stars" id="sky-stars"></div>
+      <p class="sky__message" id="sky-message"></p>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="section section--final" id="section-final">
+    <div class="rose reveal" id="rose" aria-hidden="true">
+      <svg viewBox="0 0 200 260" class="rose__svg">
+        <path class="rose__stem" d="M100 260 C 98 200, 104 160, 100 120" />
+        <path class="rose__leaf" d="M100 190 C 80 185, 65 195, 60 212 C 80 214, 95 205, 100 190Z" />
+        <g class="rose__bloom">
+          <circle class="rose__petal rose__petal--1" cx="100" cy="90" r="34" />
+          <circle class="rose__petal rose__petal--2" cx="84" cy="78" r="26" />
+          <circle class="rose__petal rose__petal--3" cx="118" cy="78" r="26" />
+          <circle class="rose__petal rose__petal--4" cx="100" cy="66" r="22" />
+          <circle class="rose__petal rose__petal--core" cx="100" cy="86" r="14" />
+        </g>
+      </svg>
+    </div>
+
+    <p class="final__title reveal">Feliz aniversário, Lilicy.</p>
+    <p class="final__text reveal">
+      Espero que este pequeno presente consiga mostrar um pouquinho<br />
+      do carinho que coloquei em cada detalhe.
+    </p>
+    <p class="final__sign reveal">Com carinho,<br /><span>Kay.</span></p>
+
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
